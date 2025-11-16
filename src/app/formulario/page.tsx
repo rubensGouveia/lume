@@ -34,11 +34,49 @@ export default function Formulario() {
 
   const onSubmit = async (data: FormData) => {
     console.log("Dados do formulário:", data);
-    // Aqui você pode implementar o envio dos dados
-    // Simula um delay de envio
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    setDadosFormulario(data);
-    setFormularioEnviado(true);
+
+    try {
+      // Prepara os dados para envio conforme o formato da API
+      const dadosApi = {
+        nome: data.nome,
+        telefone: data.telefone,
+        nascimento: data.dataNascimento,
+        cep: data.cep ? parseInt(data.cep.replace(/\D/g, "")) : 0,
+        logradouro: data.rua,
+        numero: data.numero ? parseInt(data.numero) : 0,
+        complemento: data.complemento || "",
+        bairro: data.bairro,
+        cidade: data.cidade,
+        uf: data.uf,
+        contato_feito: false,
+      };
+
+      // Envia os dados para a API
+      const response = await fetch(
+        "https://base.rubensgouveia.com.br/api/database/rows/table/18/?user_field_names=true",
+        {
+          method: "POST",
+          headers: {
+            Authorization: "Token J7zCGAUJE6GFjwb8deqEyGhl3hqGBD4t",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(dadosApi),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Erro na API: ${response.status}`);
+      }
+
+      const resultado = await response.json();
+      console.log("Usuário cadastrado com sucesso:", resultado);
+
+      setDadosFormulario(data);
+      setFormularioEnviado(true);
+    } catch (error) {
+      console.error("Erro ao cadastrar usuário:", error);
+      alert("Erro ao enviar formulário. Por favor, tente novamente.");
+    }
   };
 
   const formatarCEP = (valor: string) => {
@@ -117,41 +155,43 @@ export default function Formulario() {
 
   // Tela de sucesso
   if (formularioEnviado && dadosFormulario) {
-    const primeiroNome = dadosFormulario.nome.split(' ')[0];
-    
+    const primeiroNome = dadosFormulario.nome.split(" ")[0];
+
     return (
       <div className="bg-amber-500/5 min-h-screen flex items-center justify-center p-4">
         <div className="w-full max-w-md bg-background rounded-lg shadow-xl p-6 md:p-8 text-center">
           <div className="mb-6">
             <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-label="Ícone de sucesso">
+              <svg
+                className="w-10 h-10 text-green-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-label="Ícone de sucesso"
+              >
                 <title>Sucesso</title>
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M5 13l4 4L19 7"
+                />
               </svg>
             </div>
             <h1 className="text-2xl md:text-3xl font-bold text-[#ef8e2e] mb-4">
-              Que bom ter você aqui, {primeiroNome}! 
+              Que bom ter você aqui, {primeiroNome}!
             </h1>
             <p className="text-lg text-foreground/90 mb-2">
               Bem-vindo à família Lume! 🎉
             </p>
             <p className="text-foreground/70 mb-2">
-              Seu cadastro foi realizado com sucesso e já faz parte da nossa comunidade.
+              Seu cadastro foi realizado com sucesso e já faz parte da nossa
+              comunidade.
             </p>
             <p className="text-sm text-foreground/60">
               Entraremos em contato em breve para conhecê-lo melhor!
             </p>
           </div>
-          <button
-            type="button"
-            onClick={() => {
-              setFormularioEnviado(false);
-              setDadosFormulario(null);
-            }}
-            className="bg-[#ef8e2e] text-white px-6 py-3 rounded-lg font-medium hover:bg-[#d77a26] transition-colors"
-          >
-            Enviar Outro Formulário
-          </button>
         </div>
       </div>
     );
