@@ -35,19 +35,19 @@ const estampas: Estampa[] = [
     id: 21,
     nome: "Ano de Frutificar",
     descricao: "Lume 2026",
-    imagem: "/images/camisas/camisa frutificar.jpeg",
+    imagem: "/images/camisas/camisa frutificar.webp",
   },
   {
     id: 22,
     nome: "O fruto confirma a fé",
     descricao: "Lume 2026",
-    imagem: "/images/camisas/camisa confirma fe.jpeg",
+    imagem: "/images/camisas/camisa confirma fe.webp",
   },
   {
     id: 23,
     nome: "Uma vida que frutifica",
     descricao: "Lume 2026",
-    imagem: "/images/camisas/camisa vida.jpeg",
+    imagem: "/images/camisas/camisa vida.webp",
   },
 ];
 
@@ -504,17 +504,17 @@ export default function CompraCamisa() {
 
       {/* Modal de Imagem Ampliada */}
       {imagemModalAberto && (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80">
-          <div className="relative max-w-4xl max-h-[90vh] w-full z-10">
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-2 bg-black/90">
+          <div className="relative max-w-7xl max-h-[95vh] w-full z-10">
             {/* Botão de Fechar */}
             <button
               type="button"
               onClick={fecharModalImagem}
-              className="absolute top-4 right-4 w-10 h-10 bg-white/90 hover:bg-white text-black rounded-full flex items-center justify-center transition-colors z-20"
+              className="absolute top-4 right-4 w-12 h-12 bg-white/90 hover:bg-white text-black rounded-full flex items-center justify-center transition-colors z-20 shadow-lg"
               aria-label="Fechar modal"
             >
               <svg
-                className="w-6 h-6"
+                className="w-7 h-7"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -530,8 +530,8 @@ export default function CompraCamisa() {
             </button>
 
             {/* Imagem */}
-            <div className="bg-white rounded-lg overflow-hidden z-10">
-              <div className="relative w-full max-h-[80vh] min-h-[400px]">
+            <div className="bg-white rounded-lg overflow-hidden z-10 shadow-2xl">
+              <div className="relative w-full max-h-[85vh] min-h-[500px]">
                 <Image
                   src={imagemModalSrc}
                   alt={imagemModalAlt}
